@@ -1,139 +1,131 @@
-/* RESET */
+/* Estilos generales */
 * {
     margin: 0;
     padding: 0;
     box-sizing: border-box;
-    font-family: 'Arial', sans-serif;
 }
 
-/* CONTENEDOR GRID PRINCIPAL */
-.grid-container {
-    display: grid;
-    grid-template-areas:
-        "header header"
-        "sidebar content"
-        "footer footer";
-    grid-template-columns: 250px 1fr;
-    grid-template-rows: 70px auto 50px;
-    height: 100vh;
-}
-
-/* HEADER */
-.header {
-    grid-area: header;
-    background: #1a1a1a;
-    color: #4CAF50;
-    text-align: center;
+body {
     display: flex;
-    align-items: center;
-    justify-content: center;
-    font-size: 28px;
-    font-weight: bold;
-    letter-spacing: 1px;
+    font-family: Arial, sans-serif;
+    background-color: #000;
+    color: white;
 }
 
-/* SIDEBAR */
+/* Sidebar */
 .sidebar {
-    grid-area: sidebar;
-    background: #111;
-    color: white;
+    width: 200px;
+    background-color: #0a0a0a;
     padding: 20px;
+    height: 100vh;
+    position: fixed;
+}
+
+.sidebar h2 {
+    color: #99ff00;
+    text-align: center;
+    margin-bottom: 20px;
 }
 
 .sidebar ul {
     list-style: none;
+    padding: 0;
 }
 
-.sidebar li {
-    margin: 20px 0;
-}
-
-.sidebar a {
-    color: white;
-    text-decoration: none;
-    font-size: 20px;
-    font-weight: bold;
-    display: block;
+.sidebar ul li {
     padding: 10px;
-    background: #333;
-    text-align: center;
-    border-radius: 5px;
-    transition: 0.3s;
 }
 
-.sidebar a:hover {
-    background: #4c4eae;
-    color: black;
-}
-
-/* CONTENIDO PRINCIPAL */
-.content {
-    grid-area: content;
-    padding: 20px;
-    background: black;
+.sidebar ul li a {
+    text-decoration: none;
     color: white;
 }
 
-h2 {
-    text-align: center;
-    font-size: 26px;
-    color: #ffffff;
-    margin-top: 10px; /* Ajusta la posición hacia abajo */
-    text-transform: uppercase;
-    font-weight: bold;
+/* Contenido principal */
+.content {
+    margin-left: 220px;
+    padding: 20px;
+    flex-grow: 1;
+    display: flex;
+    flex-direction: column;
 }
-/* GRID DE IMÁGENES */
-.grid {
+
+/* Título principal */
+header h1 {
+    font-size: 24px;
+    color: #99ff00;
+    text-align: center;
+    margin-bottom: 10px; /* Reducido para acercar al carrusel */
+}
+
+/* Contenedor de imágenes pequeñas */
+.small-movies-wrapper {
+    display: flex;
+    justify-content: center;
+    overflow: hidden;
+    margin-top: -10px; /* Bajé más el apartado */
+}
+
+.small-movies-container {
+    display: flex;
+    gap: 10px;
+    animation: scroll 10s linear infinite;
+}
+
+.small-movies-container img {
+    width: 120px;
+    height: 180px;
+    object-fit: cover;
+    border-radius: 5px;
+    border: 2px solid #99ff00;
+    transition: transform 0.3s ease-in-out;
+}
+
+.small-movies-container img:hover {
+    transform: scale(1.1);
+}
+
+/* Animación de desplazamiento en bucle */
+@keyframes scroll {
+    0% { transform: translateX(100%); }
+    100% { transform: translateX(-100%); }
+}
+
+/* Contenedor principal de películas */
+.movies-container {
+    margin-top: 60px; /* Bajé más el espacio */
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+/* Grid de películas */
+.movies-grid {
     display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+    grid-template-columns: repeat(6, 1fr);
     gap: 15px;
     justify-content: center;
+    padding: 20px;
 }
 
-.grid img {
-    width: 342px;  /* Ancho igual a la imagen */
-    height: 513px; /* Alto proporcional */
+.movies-grid img {
+    width: 180px;
+    height: 270px;
     object-fit: cover;
-    border-radius: 10px;
-    border: 3px solid #4c4eae;
-    transition: transform 0.3s;
+    border: 2px solid #99ff00;
+    border-radius: 5px;
+    transition: transform 0.3s ease-in-out;
 }
-.grid img:hover {
+
+.movies-grid img:hover {
     transform: scale(1.05);
 }
 
-/* FOOTER */
-.footer {
-    grid-area: footer;
-    background: #1a1a1a;
-    color: white;
+/* Footer */
+footer {
     text-align: center;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    font-size: 14px;
-}/* Título de Estrenos Recientes */
-.titulo-estrenos {
-    position: relative;
-    left: -5pxpx;  /* Mover a la derecha (+) o izquierda (-) */
-    top: -10px;  /* Mover hacia arriba (-) o abajo (+) */
+    padding: 20px;
+    background-color: #0a0a0a;
+    margin-top: 20px;
 }
 
-/* Título de Películas */
-.titulo-peliculas {
-    position: relative;
-    left: -20px; /* Mover a la derecha (+) o izquierda (-) */
-    top: -5px;  /* Mover hacia arriba (-) o abajo (+) */
-}
-
-/* Título de Series */
-.titulo-series {
-    position: relative;
-    left: -20px;  /* Mover a la derecha (+) o izquierda (-) */
-    top: -5px;  /* Mover hacia arriba (-) o abajo (+) */
-}
-/* Mover la palabra "Cinema" */
-.header h1 {
-    margin-left: -1600px; /* Mueve a la izquierda (-) o derecha (+) */
-    margin-top: 10px;  /* Mueve hacia arriba (-) o abajo (+) */
-}

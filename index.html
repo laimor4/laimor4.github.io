@@ -3,74 +3,516 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Cinema</title>
+    <title>CineClick</title>
     <link rel="stylesheet" href="styles.css">
+    <style>
+        html, body {
+    width: 100%;
+    height: 100%;
+    overflow-x: hidden; /* Evita el desplazamiento horizontal innecesario */
+}
+
+body {
+    display: flex;
+    font-family: Arial, sans-serif;
+    background-color: #000;
+    color: white;
+    flex-direction: column;
+}
+
+html {
+    transition: transform 0.3s ease-in-out; /* Transición suave para el zoom */
+    transform-origin: top left; /* El origen del zoom será desde la esquina superior izquierda */
+}
+
+/* Para pantallas grandes */
+@media (min-width: 769px) {
+    html {
+        transform: scale(1); /* Zoom normal en pantallas más grandes */
+    }
+}
+
+/* Para pantallas pequeñas */
+@media (max-width: 768px) {
+    html {
+        transform: scale(0.9); /* Hace el contenido un 10% más pequeño en pantallas pequeñas */
+    }
+}
+      
+      * {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body {
+    display: flex;
+    font-family: Arial, sans-serif;
+    background-color: #000;
+    color: white;
+    min-height: 100vh;
+    flex-direction: column;
+}
+
+.sidebar {
+    width: 200px;
+    background-color: #0a0a0a;
+    padding: 20px;
+    height: 100vh;
+    position: fixed;
+    top: 0;
+    left: 0;
+    overflow-y: auto;
+}
+
+.sidebar h2 {
+    color: #99ff00;
+    text-align: center;
+    font-size: 40px;
+    margin-bottom: 20px;
+}
+
+.sidebar ul {
+    list-style: none;
+    padding: 0;
+    margin-top: 170px;
+}
+
+.sidebar ul li {
+    padding: 10px;
+    text-align: center;
+}
+
+.sidebar ul li a {
+    text-decoration: none;
+    color: white;
+    font-size: 25px;
+    padding: 10px 20px;
+    background-color: #333;
+    border-radius: 5px;
+    display: block;
+    transition: background-color 0.3s;
+}
+
+.sidebar ul li a:hover {
+    background-color: #99ff00;
+}
+
+.content {
+    margin-left: 220px;
+    padding: 20px;
+    flex-grow: 1;
+    display: flex;
+    flex-direction: column;
+    position: relative;
+}
+
+header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 20px;
+}
+
+header h1 {
+    font-size: 36px;
+}
+
+.small-movies-container {
+    width: 100%;
+    max-width: calc(100% - 250px);
+    overflow-x: auto;
+    white-space: nowrap;
+    background-color: #0a0a0a;
+    padding: 10px;
+    border-radius: 5px;
+    display: flex;
+    justify-content: flex-start;
+    margin: 30px auto;
+}
+
+.movies-container {
+    margin-top: 50px;
+}
+
+.movies-grid {
+    display: grid;
+    grid-template-columns: repeat(6, 1fr);
+    gap: 15px;
+    justify-content: center;
+    padding: 20px;
+}
+
+.movies-grid img {
+    width: 342px;
+    height: 513px;
+    object-fit: cover;
+    border: 2px solid #99ff00;
+    border-radius: 5px;
+    transition: transform 0.3s ease-in-out;
+}
+
+.movies-grid img:hover {
+    transform: scale(1.05);
+}
+
+footer {
+    padding: 20px;
+    text-align: center;
+    background-color: #0a0a0a;
+    color: #99ff00;
+}
+
+footer p {
+    font-size: 20px;
+}
+
+.movies-grid img:hover {
+    transform: scale(1.05);
+}
+
+footer {
+    margin-top: 20px;
+    padding: 20px;
+    background-color: #0a0a0a;
+    color: #99ff00;
+    text-align: center;
+}
+
+.content {
+    display: flex;
+    flex-direction: column;
+    margin-left: 220px;  /* Desplaza el contenido de películas y series a la derecha */
+    padding: 20px;
+    flex-grow: 1;
+}
+
+.sidebar {
+    width: 200px;
+    background-color: #0a0a0a;
+    padding: 20px;
+    height: 100vh;
+    position: fixed;
+    top: 0;
+    left: 0;
+}
+
+.sidebar h2 {
+    color: #99ff00;
+    text-align: center;
+    margin-bottom: 20px;
+}
+
+.sidebar ul {
+    list-style: none;
+    padding: 0;
+    margin-top: 170px; /* Ajusta este valor según lo que necesites */
+}
+
+.sidebar ul li {
+    padding: 10px;
+}
+
+.sidebar ul li a {
+    text-decoration: none;
+    color: white;
+    font-size: 18px; /* Disminuye el tamaño de la fuente */
+    padding: 10px 15px; /* Añadir un poco de padding para hacer los botones más pequeños */
+    display: inline-block;
+    margin: -1px 0; /* Añadir espacio entre los botones */
+    border-radius: 5px; /* Bordes redondeados */
+    transition: background-color 0.3s ease-in-out;
+}
+
+.sidebar ul li a:hover {
+    background-color: #444; /* Cambio de color al pasar el ratón por encima */
+}
+
+.movies-container {
+    margin-top: 100px;  /* Asegura que no se sobreponga con el header */
+    margin-bottom: 50px;  /* Evita la superposición del footer */
+}
+
+.movies-grid {
+    display: grid;
+    grid-template-columns: repeat(6, 1fr);
+    gap: 15px;
+    justify-content: center;
+    padding: 20px;
+}
+
+.movies-grid img {
+    width: 342px;
+    height: 513px;
+    object-fit: cover;
+    border: 2px solid #99ff00;
+    border-radius: 5px;
+    transition: transform 0.3s ease-in-out;
+}
+
+.movies-grid img:hover {
+    transform: scale(1.05);
+}
+
+footer {
+    margin-top: 20px;
+    padding: 20px;
+    background-color: #0a0a0a;
+    color: #99ff00;
+    text-align: center;
+}
+
+footer p {
+    margin: 0;
+}
+        .sidebar {
+            width: 200px;
+            background-color: #0a0a0a;
+            padding: 20px;
+            height: 100vh;
+            position: fixed;
+        }
+
+        .sidebar h2 {
+            color: #99ff00;
+            text-align: center;
+            margin-bottom: 20px;
+            font-size: 40px;
+        }
+
+        .sidebar ul {
+            list-style: none;
+            padding: 0;
+        }
+
+        .sidebar ul li {
+            padding: 10px;
+            display: flex;
+            justify-content: center;
+        }
+
+        .sidebar ul li a {
+            text-decoration: none;
+            color: white;
+            font-size: 25px;
+            padding: 10px 20px;
+            background-color: #333;
+            border-radius: 5px;
+            width: 100%;
+            text-align: center;
+            transition: background-color 0.3s;
+        }
+
+        .sidebar ul li a:hover {
+            background-color: #99ff00;
+        }
+
+        .content {
+            margin-left: 220px;
+            padding: 20px;
+            flex-grow: 1;
+            display: flex;
+            flex-direction: column;
+            position: relative;
+        }
+
+        header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 20px;
+            position: relative;
+        }
+
+        header h1 {
+            font-size: 36px;
+        }
+
+        .small-movies-container {
+            width: 100%;
+            max-width: calc(100vw - 250px); 
+            overflow-x: auto;
+            white-space: nowrap;
+            background-color: #0a0a0a;
+            padding: 10px;
+            border-radius: 5px;
+            position: relative;
+            display: flex;
+            justify-content: flex-start;
+            margin: 30px auto;
+            margin-top: -10px;
+        }
+
+        .small-movies-wrapper {
+            display: flex;
+            gap: 10px;
+        }
+
+        .small-movies-container {
+    width: 100%;
+    max-width: calc(100%vw - 250px); /* Ajusta si es necesario */
+    overflow-x: auto;
+    white-space: nowrap;
+    background-color: #0a0a0a;
+    padding: 10px;
+    border-radius: 5px;
+    position: relative;
+    display: flex;
+    justify-content: flex-start;
+    margin: 30px auto;
+    margin-top: -10px;
+    margin-left: 100px; /* Establecer un margen a la izquierda */
+}
+
+        .small-movies-container::-webkit-scrollbar-thumb {
+            background-color: #666;
+            border-radius: 4px;
+        }
+
+        .small-movies-container::-webkit-scrollbar-track {
+            background-color: #222;
+        }
+
+        .movies-container {
+            margin-top: -40px;
+            
+        }
+
+        .movies-grid {
+            display: grid;
+            grid-template-columns: repeat(6, 1fr);
+            gap: 15px;
+            justify-content: center;
+            padding: 20px;
+        }
+
+        .movies-grid img {
+            width: 342px;
+            height: 513px;
+            object-fit: cover;
+            border: 2px solid #99ff00;
+            border-radius: 0%px;
+            transition: transform 0.3s ease-in-out;
+        }
+
+        .movies-grid img:hover {
+            transform: scale(1.05);
+        }
+
+        footer {
+            padding: 1%px;
+            text-align: center;
+        }
+
+        footer p {
+            font-size: 40px; 
+        }
+    </style>
+    
+
 </head>
 <body>
+    <nav class="sidebar">
+        <h2>Cinema</h2>
+        <ul>
+            <li><a href="#">Inicio</a></li>     <!-- Enlace a la sección de Películas -->
+            <li><a href="#series">Series</a></li>      <!-- Enlace a la sección de Series -->
+            <li><a href="#peliculas">Películas</a></li>           <!-- Enlace para regresar al inicio -->
+        </ul>
+    </nav>
+    
+    
 
-    <!-- GRID PRINCIPAL -->
-    <div class="grid-container">
-
-        <!-- HEADER -->
-        <header class="header">
-            <h1>CineClick</h1>
+    <div class="content">
+        <header>
+            <h1>ESTRENOS RECIENTES</h1>
+            <div class="small-movies-container">
+                <div class="small-movies-wrapper">
+                    <img src="https://www.cuevana.is/_next/image?url=https%3A%2F%2Fimage.tmdb.org%2Ft%2Fp%2Foriginal%2FoxJG9F16AUji71jpPxkEOBWanMP.jpg&w=256&q=75" alt="Small 1">
+                    <img src="https://www.cuevana.is/_next/image?url=https%3A%2F%2Fimage.tmdb.org%2Ft%2Fp%2Foriginal%2F4cjb7Fv2n8pN9La4RJO3uD1ngdz.jpg&w=256&q=75" alt="Small 2">
+                    <img src="https://www.cuevana.is/_next/image?url=https%3A%2F%2Fimage.tmdb.org%2Ft%2Fp%2Foriginal%2F1UymgOU9dlGdj0xEoi4fDJKJf30.jpg&w=256&q=75" alt="Small 3">
+                    <img src="https://www.cuevana.is/_next/image?url=https%3A%2F%2Fimage.tmdb.org%2Ft%2Fp%2Foriginal%2Fq0HxfkF9eoa6wSVnzwMhuDSK7ba.jpg&w=256&q=75" alt="Small 4">
+                    <img src="https://www.cuevana.is/_next/image?url=https%3A%2F%2Fimage.tmdb.org%2Ft%2Fp%2Foriginal%2FeEhZyX9s15RRjDZ358GNNQRBMWs.jpg&w=256&q=75" alt="Small 5">
+                    <img src="https://www.cuevana.is/_next/image?url=https%3A%2F%2Fimage.tmdb.org%2Ft%2Fp%2Foriginal%2FmNCVMaK3UMR6yyAoH0YnOSwlZTd.jpg&w=256&q=75" alt="Small 6">
+                    <img src="https://www.cuevana.is/_next/image?url=https%3A%2F%2Fimage.tmdb.org%2Ft%2Fp%2Foriginal%2FhhfWpdNmPwU1VV7zhNA1nOMbHkH.jpg&w=256&q=75" alt="Small 7">
+                    <img src="https://www.cuevana.is/_next/image?url=https%3A%2F%2Fimage.tmdb.org%2Ft%2Fp%2Foriginal%2FtdqzzSDXeCZzCEzZKPLYQuTwFdG.jpg&w=256&q=75" alt="Small 8">
+                    <img src="https://www.cuevana.is/_next/image?url=https%3A%2F%2Fimage.tmdb.org%2Ft%2Fp%2Foriginal%2F2E7me3rPi8HqaeheuD86YlpNX6k.jpg&w=256&q=75" alt="Small 9">
+                    <img src="https://www.cuevana.is/_next/image?url=https%3A%2F%2Fimage.tmdb.org%2Ft%2Fp%2Foriginal%2FcAxteOtjaeQN045qNNbSEwu78c4.jpg&w=256&q=75" alt="Small 10">
+                    <img src="https://www.cuevana.is/_next/image?url=https%3A%2F%2Fimage.tmdb.org%2Ft%2Fp%2Foriginal%2FdTHEq2PIRAIq4COayxraiGiaajX.jpg&w=256&q=75" alt="Small 11">
+                    <img src="https://www.cuevana.is/_next/image?url=https%3A%2F%2Fimage.tmdb.org%2Ft%2Fp%2Foriginal%2Fw1HpWmVwLNBE7effrNPbf02MJfr.jpg&w=256&q=75" alt="Small 12">
+                </div>
+            </div>
         </header>
 
-        <!-- SIDEBAR -->
-        <aside class="sidebar">
-            <nav>
-                <ul>
-                    <li><a href="#inicio">Inicio</a></li>
-                    <li><a href="#peliculas">Películas</a></li>
-                    <li><a href="#series">Series</a></li>
-                </ul>
-            </nav>
-        </aside>
+         <div class="movies-container">
+            <div class="movies-grid">
+                <img src="https://www.cuevana.is/_next/image?url=https%3A%2F%2Fimage.tmdb.org%2Ft%2Fp%2Foriginal%2FlWw56vQLL33rS3Hq19ECv28dj6a.jpg&w=256&q=75" alt="Película 1">
+                <img src="https://www.cuevana.is/_next/image?url=https%3A%2F%2Fimage.tmdb.org%2Ft%2Fp%2Foriginal%2FcU6InMc8NYc54Ok4NnNHdjipqCQ.jpg&w=256&q=75" alt="Película 2">
+                <img src="https://www.cuevana.is/_next/image?url=https%3A%2F%2Fimage.tmdb.org%2Ft%2Fp%2Foriginal%2FhMJRFQarUL73K6FIbhvO4A8uEvm.jpg&w=256&q=75" alt="Película 3">
+                <img src="https://www.cuevana.is/_next/image?url=https%3A%2F%2Fimage.tmdb.org%2Ft%2Fp%2Foriginal%2FiEscED4NZCHsbA5maY4jnd3Z7xh.jpg&w=256&q=75" alt="Película 4">
+                <img src="https://www.cuevana.is/_next/image?url=https%3A%2F%2Fimage.tmdb.org%2Ft%2Fp%2Foriginal%2Fj7KtoevdWT2QpuYPFirmdGX26Sv.jpg&w=256&q=75" alt="Película 5">
+                <img src="https://www.cuevana.is/_next/image?url=https%3A%2F%2Fimage.tmdb.org%2Ft%2Fp%2Foriginal%2FgLqFqNjXAecGLDWRy6QNLoWvl2T.jpg&w=256&q=75" alt="Película 6">
+                <img src="https://www.cuevana.is/_next/image?url=https%3A%2F%2Fimage.tmdb.org%2Ft%2Fp%2Foriginal%2FiCyWHdE77pS1Ia8mD6uBLfw8jnW.jpg&w=256&q=75" alt="Película 7">
+                <img src="https://www.cuevana.is/_next/image?url=https%3A%2F%2Fimage.tmdb.org%2Ft%2Fp%2Foriginal%2FmZ8Z4jCDVlBflEuCOwH3NCDyqBP.jpg&w=256&q=75" alt="Película 8">
+                <img src="https://www.cuevana.is/_next/image?url=https%3A%2F%2Fimage.tmdb.org%2Ft%2Fp%2Foriginal%2FxdSANGJgPe4cPAyZ3SaFH57Vref.jpg&w=256&q=75" alt="Película 9">
+                <img src="https://www.cuevana.is/_next/image?url=https%3A%2F%2Fimage.tmdb.org%2Ft%2Fp%2Foriginal%2Fq0HxfkF9eoa6wSVnzwMhuDSK7ba.jpg&w=256&q=75" alt="Película 10">
+                <img src="https://www.cuevana.is/_next/image?url=https%3A%2F%2Fimage.tmdb.org%2Ft%2Fp%2Foriginal%2FzDJnfsCueDsBNw5QxUJRw58nCke.jpg&w=256&q=75" alt="Película 11">
+                <img src="https://www.cuevana.is/_next/image?url=https%3A%2F%2Fimage.tmdb.org%2Ft%2Fp%2Foriginal%2F1DkmVaJoOAZSL0xm6ML0LDS5Vhz.jpg&w=256&q=75" alt="Película 12">
+            </div>
+        </div>
 
-        <!-- CONTENIDO PRINCIPAL -->
-        <main class="content">
-            
-            <!-- Sección de Estrenos -->
-            <section id="inicio">
-                <h2 class="titulo-estrenos">ESTRENOS RECIENTES</h2>
-                <div class="grid">
-                    <img src=https://cuevana.biz/_next/image?url=https%3A%2F%2Fimage.tmdb.org%2Ft%2Fp%2Foriginal%2FndCIqBuR71GrTRPz9JjKED6e0W9.jpg&w=256&q=75alt="Estreno 1">
-                    <img src=https://cuevana.biz/_next/image?url=https%3A%2F%2Fimage.tmdb.org%2Ft%2Fp%2Foriginal%2F5CdH23WUTMsGmx9PRZEHUQ5rCLg.jpg&w=256&q=75 alt="Estreno 2">
-                    <img src=https://cuevana.biz/_next/image?url=https%3A%2F%2Fimage.tmdb.org%2Ft%2Fp%2Foriginal%2F4cjb7Fv2n8pN9La4RJO3uD1ngdz.jpg&w=256&q=75 alt="Estreno 3">
-                    <img src=https://cuevana.biz/_next/image?url=https%3A%2F%2Fimage.tmdb.org%2Ft%2Fp%2Foriginal%2F2E7me3rPi8HqaeheuD86YlpNX6k.jpg&w=256&q=75 alt="Estreno 4">
-                </div>
-            </section>
+        <div class="series-container" id="series">
+            <div class="movies-grid">
+                <img src="https://www.cuevana.is/_next/image?url=https%3A%2F%2Fimage.tmdb.org%2Ft%2Fp%2Foriginal%2FoxJG9F16AUji71jpPxkEOBWanMP.jpg&w=256&q=75" alt="Serie 1">
+                <img src="https://www.cuevana.is/_next/image?url=https%3A%2F%2Fimage.tmdb.org%2Ft%2Fp%2Foriginal%2FhQnhk8bOFHlFI7KZ12NT24yW8iw.jpg&w=256&q=75" alt="Serie 2">
+                <img src="https://www.cuevana.is/_next/image?url=https%3A%2F%2Fimage.tmdb.org%2Ft%2Fp%2Foriginal%2FuwTNBqFrEur3EtK8ofWbtGXMQOP.jpg&w=256&q=75" alt="Serie 3">
+                <img src="https://www.cuevana.is/_next/image?url=https%3A%2F%2Fimage.tmdb.org%2Ft%2Fp%2Foriginal%2FvxBqeBJcQ34ioFhHmsDsfDF9e8w.jpg&w=256&q=75" alt="Serie 4">
+                <img src="https://www.cuevana.is/_next/image?url=https%3A%2F%2Fimage.tmdb.org%2Ft%2Fp%2Foriginal%2FxGJ98jmU88PNhxSxcsX8WWmJJCa.jpg&w=256&q=75" alt="Serie 5">
+                <img src="https://www.cuevana.is/_next/image?url=https%3A%2F%2Fimage.tmdb.org%2Ft%2Fp%2Foriginal%2Fb6Uo0Tkjhqlze7R7DgGmP9Fq4Ce.jpg&w=256&q=75" alt="Serie 6">
+                
+                
+            </div>
+        </div>
 
-            <!-- Sección de Películas -->
-            <section id="peliculas">
-                <h2 class="titulo-peliculas">Películas</h2>
-                <div class="grid">
-                    <img src=https://cuevana.biz/_next/image?url=https%3A%2F%2Fimage.tmdb.org%2Ft%2Fp%2Foriginal%2FiCyWHdE77pS1Ia8mD6uBLfw8jnW.jpg&w=256&q=75 alt="Película 1">
-                    <img src=https://www.cuevana.is/_next/image?url=https%3A%2F%2Fimage.tmdb.org%2Ft%2Fp%2Foriginal%2FmZ8Z4jCDVlBflEuCOwH3NCDyqBP.jpg&w=256&q=75 alt="Película 2">
-                    <img src=https://cuevana.biz/_next/image?url=https%3A%2F%2Fimage.tmdb.org%2Ft%2Fp%2Foriginal%2Fq0HxfkF9eoa6wSVnzwMhuDSK7ba.jpg&w=256&q=75 alt="Película 3">
-                    <img src=https://cuevana.biz/_next/image?url=https%3A%2F%2Fimage.tmdb.org%2Ft%2Fp%2Foriginal%2FlpMXvcdOnEg4rvsIjWEImhHI1aH.jpg&w=256&q=75 alt="Película 4">
-                </div>
-            </section>
+    <footer>
+        <p>&copy; 2025 CineClick</p>
+    </footer>
 
-            <!-- Sección de Series -->
-            <section id="series">
-                <h2 class="titulo-series">Series</h2>
-                <div class="grid">
-                    <img src=https://www.cuevana.is/_next/image?url=https%3A%2F%2Fimage.tmdb.org%2Ft%2Fp%2Foriginal%2F5s6OHwM0Z3VTquTaEmpCBd4G3X4.jpg&w=256&q=75 alt="Serie 1">
-                    <img src=https://www.cuevana.is/_next/image?url=https%3A%2F%2Fimage.tmdb.org%2Ft%2Fp%2Foriginal%2F3IsrEPvQckAyEpMP77EDK1paPIr.jpg&w=256&q=75 alt="Serie 2">
-                    <img src=https://www.cuevana.is/_next/image?url=https%3A%2F%2Fimage.tmdb.org%2Ft%2Fp%2Foriginal%2Fi5dZG5SJ7NuApNneDDeJdz3k0Dl.jpg&w=256&q=75 alt="Serie 3">
-                    <img src=https://www.cuevana.is/_next/image?url=https%3A%2F%2Fimage.tmdb.org%2Ft%2Fp%2Foriginal%2Fb6Uo0Tkjhqlze7R7DgGmP9Fq4Ce.jpg&w=256&q=75 alt="Serie 4">
-                </div>
-            </section>
-
-        </main>
-
-        <!-- FOOTER -->
-        <footer class="footer">
-            <p>&copy; 2025 CineClick. Todos los derechos reservados.</p>
-        </footer>
-
-    </div>
-
+    <script>
+        window.onload = function() {
+            // Verifica si el hash de la URL está configurado (esto indica qué sección se debe mostrar)
+            if (window.location.hash === "#series") {
+                // Si la URL tiene el hash #series, oculta las películas y muestra las series
+                document.querySelector('.movies-container').style.display = 'none';
+                document.querySelector('.series-container').style.display = 'block';
+            } else {
+                // Si no hay hash o es otro, muestra las películas y oculta las series
+                document.querySelector('.movies-container').style.display = 'block';
+                document.querySelector('.series-container').style.display = 'none';
+            }
+        };
+    
+        // Escuchar los clics en los enlaces del sidebar
+        document.querySelector('.sidebar').addEventListener('click', function(event) {
+            if (event.target && event.target.tagName === 'A') {
+                const section = event.target.getAttribute('href');
+                
+                if (section === "#series") {
+                    // Cuando el enlace de Series es clickeado, oculta películas y muestra series
+                    document.querySelector('.movies-container').style.display = 'none';
+                    document.querySelector('.series-container').style.display = 'block';
+                } else {
+                    // Cuando el enlace de Películas es clickeado, muestra películas y oculta series
+                    document.querySelector('.movies-container').style.display = 'block';
+                    document.querySelector('.series-container').style.display = 'none';
+                }
+            }
+        });
+    </script>
 </body>
 </html>
+
+
+
+
+
